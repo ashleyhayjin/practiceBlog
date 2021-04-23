@@ -1,5 +1,5 @@
 //jshint esversion:6
-
+const _ = require('lodash')
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -14,6 +14,7 @@ let allPosts=[];
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
+app.set('view engine', 'ejs');
 
 
 app.get('/', (req,res) => {
@@ -33,13 +34,22 @@ app.get('/contact', (req,res) => {
 })
 
 app.get("/posts/:id", (req,res) => {
-  console.log(req.params.id);
+  let requestedID = _.lowerCase(req.params.id);
+  console.log("requestedID" , requestedID)
+  allPosts.forEach(function(allPost){
+    const storedID = _.lowerCase(allPost.postTitle);
+    if (requestedID === storedID){
+      res.render("post", {
+        title: allPost.postTitle,
+        content: allPost.postBody
+      });
+    }
+  });
 })
 
 app.get("/compose", (req,res) => {
   res.render("compose");
 })
-app.set('view engine', 'ejs');
 
 app.post('/compose', (req,res) => {
   const post = {

@@ -4,11 +4,9 @@
 
     <% allPosts.forEach(function(allPost) { %>
     <h1><%= allPost.postTitle%></h1>
-    <p><%= allPost.postBody%></p>
+    <p><%= allPost.postBody.substring(0,100) + " ..."%>
+    <a href="/posts/<%= allPost.postTitle%>">Read More</a>
+    </p>
      <% }) %>
-    <!-- <ul>
-        <% allPosts.forEach(function(allPosts) { %>
-            <li>Title: <%= allPosts.postTitle %> Body: <%= allPosts.postBody %></li>
-        <% }); %> 
-    </ul> -->
+ 
 <%- include('./partials/footer'); -%>
